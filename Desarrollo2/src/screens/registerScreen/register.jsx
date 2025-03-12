@@ -11,7 +11,7 @@ const Register = () => {
       <header id="header">
         <div id="header-content">
           <div className="logo">
-            <img src="../../public/logo.png" alt="Logo" />
+            <img src="/logo.png" alt="Logo" />
           </div>
           <h2>Become a Cinephile</h2>
           <p className="subtitle">
@@ -26,7 +26,9 @@ const Register = () => {
           <input type="email" placeholder="Email Address" required />
           <input type="password" placeholder="Password" required />
           <input type="password" placeholder="Confirm password" required />
-          <button type="submit" className="btn-gradient">Continue</button>
+          <Link to="/login">
+            <button type="submit" className="btn-gradient">Register</button>
+          </Link>
         </form>
 
         <div className="social-login-register">
@@ -39,7 +41,7 @@ const Register = () => {
         </div>
 
         <p className="login-link">
-          Have an account? <Link to="/">Login</Link>
+          Have an account? <Link to="/login">Login</Link>
         </p>
       </div>
     </div>

@@ -20,7 +20,9 @@ const Login = () => {
         <form className="login-form">
           <input type="email" placeholder="E-mail" required />
           <input type="password" placeholder="Password" required />
-          <button type="submit">Sign in</button>
+          <Link to="/">
+            <button type="submit">Sign in</button>
+          </Link>
         </form>
 
         <div className="social-login">
