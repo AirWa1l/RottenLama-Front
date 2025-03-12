@@ -1,13 +1,15 @@
 import React from "react";
-import { FaGoogle, FaGithub, FaTwitter } from "react-icons/fa";
+import { FaGoogle, FaGithub, FaTwitter } from "react-icons/fa"; 
 import "./register.css"; 
-import { Link } from "react-router-dom";
-import AnimatedBackground from "../../components/particles/particles";
+import { Link } from "react-router-dom"; 
+import AnimatedBackground from "../../components/particles/particles"; 
 
 const Register = () => {
   return (
     <div className="register-wrapper">
-      <AnimatedBackground />
+      <AnimatedBackground /> {/* Fondo animado con partículas */}
+
+      {/* Encabezado con logo y descripción */}
       <header id="header">
         <div id="header-content">
           <div className="logo">
@@ -20,6 +22,7 @@ const Register = () => {
         </div>
       </header>
       
+      {/* Formulario de registro */}
       <div className="register-container">
         <form className="register-form">
           <input type="text" placeholder="Username" required />
@@ -31,6 +34,7 @@ const Register = () => {
           </Link>
         </form>
 
+        {/* Sección de registro con redes sociales */}
         <div className="social-login-register">
           <p>Or sign up with</p>
           <div className="social-icons-register">
@@ -40,6 +44,7 @@ const Register = () => {
           </div>
         </div>
 
+        {/* Enlace a la página de inicio de sesión */}
         <p className="login-link">
           Have an account? <Link to="/login">Login</Link>
         </p>

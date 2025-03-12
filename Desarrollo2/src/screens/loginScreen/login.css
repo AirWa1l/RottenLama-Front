@@ -1,4 +1,4 @@
-/* Estilo para centrar el login en pantalla con un fondo atractivo */
+/* Reseteo de márgenes y estilos básicos del body */
 body {
     margin: 0;
     padding: 0;
@@ -6,10 +6,11 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    font-family: "Arial", sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2); /* Fondo con degradado */
+    font-family: "Arial", sans-serif; /* Fuente general */
 }
   
+/* Contenedor principal del login */
 .login-wrapper {
     display: flex;
     justify-content: center;
@@ -18,29 +19,25 @@ body {
     height: 100vh;
 }
   
+/* Caja del formulario de login */
 .login-container {
     width: 350px;
     padding: 25px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    color: white;
+    background: rgba(255, 255, 255, 0.15); /* Fondo semi-transparente */
+    backdrop-filter: blur(10px); /* Efecto de desenfoque en el fondo */
+    border-radius: 12px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+    text-align: center; /* Centrar contenido */
+    color: white; /* Texto en color blanco */
 }
   
+/* Estilo del título */
 h2 {
     margin-bottom: 10px;
     font-size: 24px;
 }
   
-.subtitle {
-    margin-bottom: 20px;
-    font-size: 14px;
-    opacity: 0.8;
-}
-  
-  
+/* Estilo de los inputs del formulario */
 .login-form input {
     width: 90%;
     padding: 12px;
@@ -48,15 +45,17 @@ h2 {
     border: none;
     border-radius: 8px;
     font-size: 14px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.2); /* Fondo semi-transparente */
     color: white;
     outline: none;
 }
   
+/* Color del placeholder dentro del input */
 .login-form input::placeholder {
     color: rgba(255, 255, 255, 0.7);
 }
   
+/* Botón de inicio de sesión */
 .login-form button {
     width: 97%;
     padding: 10px;
@@ -64,27 +63,31 @@ h2 {
     border: none;
     border-radius: 10px;
     font-size: 16px;
-    background: #208AFF;
+    background: #208AFF; /* Azul */
     color: white;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.3s; /* Transición suave */
 }
   
+/* Efecto al pasar el mouse sobre el botón de inicio de sesión */
 .login-form button:hover {
-    background: #ff5277;
+    background: #ff5277; /* Cambia a rosa */
 }
   
+/* Estilo del texto "Or sign in with" */
 .social-login p {
     margin: 15px 0 10px;
     font-size: 14px;
 }
   
+/* Contenedor de los botones de redes sociales */
 .social-icons {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 15px; /* Espaciado entre botones */
 }
   
+/* Estilos generales de los botones de redes sociales */
 .icon-btn {
     border: none;
     padding: 12px;
@@ -96,39 +99,46 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.3s;
+    transition: 0.3s; /* Transición suave */
 }
   
+/* Estilo para el botón de Google */
 .google {
-    background: #db4437;
+    background: #db4437; /* Rojo */
     color: white;
 }
   
+/* Estilo para el botón de GitHub */
 .github {
-    background: #333;
+    background: #333; /* Negro */
     color: white;
 }
   
+/* Estilo para el botón de Twitter */
 .twitter {
-    background: #1da1f2;
+    background: #1da1f2; /* Azul */
     color: white;
 }
   
+/* Efecto de agrandamiento al pasar el mouse sobre los botones de redes sociales */
 .icon-btn:hover {
     transform: scale(1.1);
 } 
 
+/* Estilo del enlace de registro */
 #id-register-link {
     margin-top: 20px;
     font-size: 14px;
 }
 
+/* Estilo del enlace de registro cuando no está en hover */
 #id-register-link a {
     color: #208AFF;
     text-decoration: none;
     font-weight: bold;
 }
 
+/* Estilo del enlace de registro cuando el usuario pasa el mouse */
 #id-register-link a:hover {
     color: #ff5277;
 }
