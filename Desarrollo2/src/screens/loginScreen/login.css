@@ -116,4 +116,19 @@ h2 {
   
 .icon-btn:hover {
     transform: scale(1.1);
-}  
+} 
+
+#id-register-link {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+#id-register-link a {
+    color: #208AFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#id-register-link a:hover {
+    color: #ff5277;
+}
