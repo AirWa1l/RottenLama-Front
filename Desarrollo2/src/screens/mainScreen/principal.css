@@ -1,0 +1,132 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea, #764ba2); /* Fondo con degradado */
+    font-family: "Arial", sans-serif; /* Fuente general */
+}
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+/* Logo y marca */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo {
+    width: 35px;
+    height: auto;
+}
+
+.brand-text {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.brand-subtext {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+/* Contenedor general de búsqueda, menú y botones */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Barra de búsqueda */
+.search-bar {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    width: 180px;
+}
+
+/* Menú desplegable */
+.menu-container {
+    position: relative;
+}
+
+.menu-button {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.menu-button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    min-width: 140px;
+    padding: 5px 0;
+}
+
+.dropdown-menu a {
+    color: white;
+    text-decoration: none;
+    padding: 6px 10px;
+    transition: 0.3s;
+}
+
+.dropdown-menu a:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Botones de autenticación */
+.auth-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.auth-buttons a {
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.auth-buttons a:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
