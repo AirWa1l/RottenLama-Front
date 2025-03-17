@@ -4,7 +4,7 @@ import "./register.css";
 import useAuth from "../../API/auth.js";
 import { Link, useNavigate } from "react-router-dom"; 
 import AnimatedBackground from "../../components/particles/particles"; 
-import { toast } from "react-toastify";
+
 
 const Register = () => {
   const { register: registrarUsuario } = useAuth();
@@ -38,10 +38,8 @@ const Register = () => {
     setIsLoading(true);
     try {
       await registrarUsuario({email, username, password });
-      toast.success("Usuario registrado exitosamente.");
-      navigate("/login"); // Redirigir tras registro exitoso
+      navigate("/login");
     } catch (error) {
-      toast.error("El Usuario se encuentra registrado");
       console.error("Error registering user:", error);
     }
     setIsLoading(false);

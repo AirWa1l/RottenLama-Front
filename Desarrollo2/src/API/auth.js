@@ -1,5 +1,6 @@
 import { useReducer } from "react";
 import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom"; 
 //import { setExpirationDate, getUserFromLocalStorage } from "../helpers/checkExpiration";
 
 const initialState = {
@@ -25,6 +26,7 @@ const reducer = (state, action) => {
 
 const useAuth = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const navigate = useNavigate();
   const register = async (userInfo) => {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/users/register/", {
@@ -33,23 +35,25 @@ const useAuth = () => {
               "Content-Type": "application/json",
           },
           body: JSON.stringify(userInfo),
+          
       });
-  
+      console.log("Datos enviados:", response);
       if (!response.ok) {
           const errorData = await response.json();
           if (errorData.username) {
-              toast.error(errorData.username[0]);
+              alert("The username is already registered");
           } else if (errorData.email) {
-              toast.error(errorData.email[0]);
+            alert("The email is already registered");
           } else {
-              toast.error("Ocurrió un error inesperado.");
+              alert("An unexpected error occurred");
           }
       } else {
-          toast.success("Usuario registrado exitosamente.");
+        navigate("/login");
+        alert("Successfully registered user");
       }
   } catch (error) {
       console.error("Error:", error);
-      toast.error("Hubo un problema al registrar el usuario.");
+     
   } 
   };
 
