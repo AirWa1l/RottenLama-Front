@@ -1,15 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaGoogle, FaGithub, FaTwitter } from "react-icons/fa"; 
 import "./register.css"; 
-import { Link } from "react-router-dom"; 
+import useAuth from "../../API/auth.js";
+import { Link, useNavigate } from "react-router-dom"; 
 import AnimatedBackground from "../../components/particles/particles"; 
+import { toast } from "react-toastify";
 
 const Register = () => {
+  const { register: registrarUsuario } = useAuth();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { username, email, password, confirmPassword } = formData;
+
+    if (!username || !email || !password || !confirmPassword) {
+      alert("Please fill in all fields.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await registrarUsuario({email, username, password });
+      toast.success("Usuario registrado exitosamente.");
+      navigate("/login"); // Redirigir tras registro exitoso
+    } catch (error) {
+      toast.error("El Usuario se encuentra registrado");
+      console.error("Error registering user:", error);
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div className="register-wrapper">
-      <AnimatedBackground /> {/* Fondo animado con partículas */}
-
-      {/* Encabezado con logo y descripción */}
+      <AnimatedBackground />
       <header id="header">
         <div id="header-content">
           <div className="logo">
@@ -22,19 +62,17 @@ const Register = () => {
         </div>
       </header>
       
-      {/* Formulario de registro */}
       <div className="register-container">
-        <form className="register-form">
-          <input type="text" placeholder="Username" required />
-          <input type="email" placeholder="Email Address" required />
-          <input type="password" placeholder="Password" required />
-          <input type="password" placeholder="Confirm password" required />
-          <Link to="/login">
-            <button type="submit" className="btn-gradient">Register</button>
-          </Link>
+        <form className="register-form" onSubmit={handleSubmit}>
+          <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} required />
+          <input type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required />
+          <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+          <input type="password" name="confirmPassword" placeholder="Confirm password" value={formData.confirmPassword} onChange={handleChange} required />
+          <button type="submit" className="btn-gradient" disabled={isLoading}>
+            {isLoading ? "Registering..." : "Register"}
+          </button>
         </form>
 
-        {/* Sección de registro con redes sociales */}
         <div className="social-login-register">
           <p>Or sign up with</p>
           <div className="social-icons-register">
@@ -44,7 +82,6 @@ const Register = () => {
           </div>
         </div>
 
-        {/* Enlace a la página de inicio de sesión */}
         <p className="login-link">
           Have an account? <Link to="/login">Login</Link>
         </p>
