@@ -1,48 +1,94 @@
-// Importamos React y los iconos de Google, GitHub y Twitter desde react-icons
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaGoogle, FaGithub, FaTwitter } from "react-icons/fa";
-
-// Importamos el archivo CSS para aplicar estilos a este componente
 import "./login.css"; 
-
-// Importamos Link desde react-router-dom para la navegación entre páginas
-import { Link } from "react-router-dom";
-
-// Importamos el componente WavesBackground para agregar un fondo animado de olas
+import Swal from "sweetalert2";
+import useAuth from "../../API/auth.js";
+import { Link, useNavigate } from "react-router-dom";
 import WavesBackground from "../../components/waves/waves";
 
 const Login = () => {
+  const { login ,logout} = useAuth();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: "", password: "" });
+
+  // Verificar si el usuario ya tiene sesión iniciada
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+  if (user && user.expirationDate > new Date().getTime()) {
+    Swal.fire({
+      icon: "info",
+      title: "You already have an active session",
+      text: "If you want to log in with another account, you must log out first.",
+      showCancelButton: true,
+      confirmButtonText: "Log out",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout(); // Si elige "Cerrar sesión", ejecuta logout()
+      }
+    });
+  }
+}, []);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validación para asegurar que los campos no estén vacíos
+    const { email, password } = formData;
+    if (!email || !password) {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Please fill in all fields.",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      return;
+    }
+
+    await login(formData); // Enviamos los datos a la función login de auth.js
+  };
+
   return (
-    <div className="login-wrapper"> {/* Contenedor principal */}
-      <WavesBackground /> {/* Componente que agrega el fondo animado */}
-
-      <div className="login-container"> {/* Contenedor del formulario de login */}
-        <h2>Welcome!</h2> {/* Título de la página */}
-
-        {/* Enlace para registrarse si el usuario no tiene cuenta */}
+    <div className="login-wrapper">
+      <WavesBackground />
+      <div className="login-container">
+        <h2>Welcome!</h2>
         <div id="id-register-link">
-            <p>
-                Don't you have an account? 
-                <Link to="/register"> Register</Link> {/* Redirige a la página de registro */}
-            </p>
+          <p>
+            Don't you have an account?
+            <Link to="/register"> Register</Link>
+          </p>
         </div>
 
-        {/* Formulario de inicio de sesión */}
-        <form className="login-form">
-          <input type="email" placeholder="E-mail" required /> {/* Campo de correo */}
-          <input type="password" placeholder="Password" required /> {/* Campo de contraseña */}
-
-          {/* Botón de inicio de sesión, que redirige a la página principal */}
-          <Link to="/">
-            <button type="submit">Sign in</button>
-          </Link>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            placeholder="E-mail"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit">Sign in</button>
         </form>
 
-        {/* Sección de inicio de sesión con redes sociales */}
         <div className="social-login">
           <p>Or sign in with</p>
           <div className="social-icons">
-            {/* Botones de inicio de sesión con Google, GitHub y Twitter */}
             <button className="icon-btn google"><FaGoogle /></button>
             <button className="icon-btn github"><FaGithub /></button>
             <button className="icon-btn twitter"><FaTwitter /></button>
@@ -53,6 +99,4 @@ const Login = () => {
   );
 };
 
-export default Login; // Exportamos el componente para usarlo en otras partes de la aplicación
-
-
+export default Login;
