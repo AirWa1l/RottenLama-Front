@@ -86,6 +86,12 @@ const Login = () => {
           <button type="submit">Sign in</button>
         </form>
 
+        <div id="recovery-link">
+          <p>
+            <Link to="/recovery"> Recover password?</Link>
+          </p>
+        </div>
+
         <div className="social-login">
           <p>Or sign in with</p>
           <div className="social-icons">
