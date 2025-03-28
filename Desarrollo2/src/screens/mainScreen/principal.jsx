@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo from "/logo.png";
-import CarruselInfinito from "../Carrusel/CarruselInfinito.jsx";
-import Carrusel from "../Carrusel/carrusel.jsx";
+import CarruselInfinito from "../../components/Carrusel/carruselInfinito.jsx";
+import Carrusel from "../../components/Carrusel/carrusel.jsx";
 import "./principal.css";
 import { Link } from "react-router-dom";
 
