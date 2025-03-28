@@ -138,6 +138,23 @@ h2 {
     font-weight: bold;
 }
 
+/* Estilo del enlace de recuperar contraseña */
+#recovery-link {
+    margin-top: 15px;   
+    font-size: 14px;
+}
+
+/* Estilo del enlace de recovery */
+#recovery-link a {
+    color: #208AFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#recovery-link a:hover {
+    color: #ff5277;
+}
+
 /* Estilo del enlace de registro cuando el usuario pasa el mouse */
 #id-register-link a:hover {
     color: #ff5277;
