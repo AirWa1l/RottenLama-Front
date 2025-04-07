@@ -262,7 +262,7 @@ const checkTokenExpiration = async () => {
     }
   };
 
-  return { state, register, login, logout, refreshToken };
+  return { state, register, login, logout, refreshToken, user: state.user };
 };
 
 export default useAuth;
