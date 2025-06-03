@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
   moduleNameMapper: {
@@ -12,6 +12,10 @@ export default {
     '/node_modules/',
     '/__tests__/__mocks__/'
   ],
+  globals: {
+    TextEncoder: TextEncoder,
+    TextDecoder: TextDecoder
+  },
   collectCoverageFrom: [
     'src/**/*.{js,jsx}',
     '!src/main.jsx',
