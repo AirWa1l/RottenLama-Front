@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import logo from "/logo.png";
 import CarruselInfinito from "../../components/Carrusel/carruselInfinito.jsx";
 import Carrusel from "../../components/Carrusel/carrusel.jsx";
+import useAuth from "../../API/auth";
 import "./principal.css";
 import { Link } from "react-router-dom";
+import LogoutButton from "../../components/LogoutButton/logoutButton.jsx";
 
 const Principal = () => {
     const [busqueda, setBusqueda] = useState("");
     const [menuAbierto, setMenuAbierto] = useState(false);
+    const { user, logout } = useAuth();
 
     // Array de imágenes para el carrusel infinito
     const images = [
@@ -50,9 +53,16 @@ const Principal = () => {
                     </div>
 
                     <div className="auth-buttons">
-                        <Link to="/register">Register</Link>
-                        <Link to="/login">Login</Link>
+                      {!user ? (
+                        <>
+                          <Link to="/register">Register</Link>
+                          <Link to="/login">Login</Link>
+                        </>
+                      ) : (
+                        <LogoutButton />
+                      )}
                     </div>
+
                 </div>
             </div>
 
