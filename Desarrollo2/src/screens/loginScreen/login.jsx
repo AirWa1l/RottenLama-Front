@@ -3,12 +3,11 @@ import { FaGoogle, FaGithub, FaTwitter } from "react-icons/fa";
 import "./login.css"; 
 import Swal from "sweetalert2";
 import useAuth from "../../API/auth.js";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import WavesBackground from "../../components/waves/waves";
 
 const Login = () => {
   const { login ,logout} = useAuth();
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   // Verificar si el usuario ya tiene sesión iniciada
