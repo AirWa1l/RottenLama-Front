@@ -7,10 +7,24 @@ const Recovery = () => {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
+    const handleEmailChange = (e) => {
+        const newEmail = e.target.value;
+        setEmail(newEmail);
+        
+        // Solo limpiar error si el email ahora es válido
+        if (error && newEmail.includes("@") && newEmail.includes(".")) {
+            setError("");
+        }
+        
+        // Limpiar mensaje de éxito cuando el usuario modifica el email
+        if (message) setMessage("");
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!email.includes("@") || !email.includes(".")) {
             setError("Por favor, ingresa un correo válido.");
+            setMessage(""); // Limpiar mensaje de éxito si hay error
             return;
         }
         setError("");
@@ -28,7 +42,7 @@ const Recovery = () => {
                         type="email" 
                         placeholder="Correo electrónico" 
                         value={email} 
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={handleEmailChange}
                         required
                     />
                 </div>
