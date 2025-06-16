@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import Searchbar from "../../src/components/SearchBar/searchbar.jsx";
+import Searchbar from "../../src/components/SearchBar/Searchbar.jsx";
 
 
 describe("Searchbar", () => {
