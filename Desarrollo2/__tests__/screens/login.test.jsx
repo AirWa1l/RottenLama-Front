@@ -1,10 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 
 // Mock completo de react-router-dom
 jest.mock('react-router-dom', () => ({
-  BrowserRouter: ({ children }) => <div>{children}</div>,
   Link: ({ children, to }) => <a href={to}>{children}</a>,
   useNavigate: () => jest.fn()
 }));
