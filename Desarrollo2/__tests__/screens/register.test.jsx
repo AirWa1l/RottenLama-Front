@@ -4,10 +4,20 @@ import '@testing-library/jest-dom';
 import Register from '../../src/screens/registerScreen/register';
 
 // Mocks
-jest.mock('react-router-dom', () => ({
-  Link: ({ children, to }) => <a href={to}>{children}</a>,
-  useNavigate: () => jest.fn()
-}));
+jest.mock('react-router-dom', () => {
+  const PropTypes = require('prop-types');
+  function Link({ children, to }) {
+    return <a href={to}>{children}</a>;
+  }
+  Link.propTypes = {
+    children: PropTypes.node,
+    to: PropTypes.string,
+  };
+  return {
+    Link,
+    useNavigate: () => jest.fn(),
+  };
+});
 
 jest.mock('../../src/API/auth.js', () => ({
   __esModule: true,

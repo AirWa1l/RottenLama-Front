@@ -3,11 +3,20 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Recovery from '../../src/screens/recoveryScreen/recovery';
 
-// Mocks
-jest.mock('react-router-dom', () => ({
-  Link: ({ children, to }) => <a href={to}>{children}</a>,
-  useNavigate: () => jest.fn()
-}));
+jest.mock('react-router-dom', () => {
+  const PropTypes = require('prop-types');
+  function Link({ children, to }) {
+    return <a href={to}>{children}</a>;
+  }
+  Link.propTypes = {
+    children: PropTypes.node,
+    to: PropTypes.string,
+  };
+  return {
+    Link,
+    useNavigate: () => jest.fn(),
+  };
+});
 
 describe('Recovery Screen', () => {
   beforeEach(() => {

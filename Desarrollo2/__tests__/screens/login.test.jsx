@@ -2,10 +2,20 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 // Mock completo de react-router-dom
-jest.mock('react-router-dom', () => ({
-  Link: ({ children, to }) => <a href={to}>{children}</a>,
-  useNavigate: () => jest.fn()
-}));
+jest.mock('react-router-dom', () => {
+  const PropTypes = require('prop-types');
+  function Link({ children, to }) {
+    return <a href={to}>{children}</a>;
+  }
+  Link.propTypes = {
+    children: PropTypes.node,
+    to: PropTypes.string,
+  };
+  return {
+    Link,
+    useNavigate: () => jest.fn(),
+  };
+});
 
 // Mock de SweetAlert2
 jest.mock('sweetalert2', () => ({

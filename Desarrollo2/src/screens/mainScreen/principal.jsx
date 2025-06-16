@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "/logo.png";
+import logo from "../../assets/logo.png";
 import CarruselInfinito from "../../components/Carrusel/carruselInfinito.jsx";
 import Carrusel from "../../components/Carrusel/carrusel.jsx";
 import useAuth from "../../API/auth";
