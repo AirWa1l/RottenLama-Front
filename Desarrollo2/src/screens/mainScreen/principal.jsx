@@ -5,7 +5,7 @@ import Carrusel from "../../components/Carrusel/carrusel.jsx";
 import useAuth from "../../API/auth";
 import { Link } from "react-router-dom";
 import LogoutButton from "../../components/LogoutButton/logoutButton.jsx";
-import Searchbar from "../../components/SearchBar/searchbar.jsx";
+import Searchbar from "../../components/SearchBar/Searchbar.jsx";
 import "./principal.css";
 
 const Principal = () => {
