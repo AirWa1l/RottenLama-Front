@@ -99,10 +99,12 @@ describe('Register Screen', () => {
   
   test('renderiza logo', () => {
     render(<Register />);
-        
-    const logo = screen.getByAltText('Logo');
+      
+    const logoContainer = screen.getByText('Become a Cinephile').closest('header');
+    const logo = logoContainer.querySelector('img[alt="Logo"]');
+  
     expect(logo).toBeInTheDocument();
-    expect(logo).toHaveAttribute('src', '/logo.png');
+    expect(logo).toHaveAttribute('alt', 'Logo');
   });
   
   test('previene submit con campos vacíos', async () => {

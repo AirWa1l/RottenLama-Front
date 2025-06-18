@@ -3,7 +3,8 @@ import { FaGoogle, FaGithub, FaTwitter } from "react-icons/fa";
 import "./register.css"; 
 import useAuth from "../../API/auth.js";
 import { Link, useNavigate } from "react-router-dom"; 
-import AnimatedBackground from "../../components/particles/particles"; 
+import AnimatedBackground from "../../components/particles/particles";
+import logo from "../../assets/logo.png"; 
 
 
 const Register = () => {
@@ -51,7 +52,7 @@ const Register = () => {
       <header id="header">
         <div id="header-content">
           <div className="logo">
-            <img src="/logo.png" alt="Logo" />
+            <img src={logo} alt="Logo" />
           </div>
           <h2>Become a Cinephile</h2>
           <p className="subtitle">
