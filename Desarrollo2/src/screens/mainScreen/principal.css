@@ -249,3 +249,33 @@ body {
 .view-all button:hover {
     background: rgba(255, 255, 255, 0.1);
 }
+
+.movie-carousel-section {
+    position: relative;
+    padding-top: 60px;
+    width: 100vw;
+    left: 50%;
+    right: 0;
+    transform: translateX(-50%);
+    margin-top: 990px;
+    padding: 0;
+    z-index: 1;
+}
+
+.carrousel-screen .banner {
+    position: relative;
+    top: 0;
+    left: 0;
+    min-height: 100vh;
+    height: 100vh;
+    padding-top: 60px;
+    width: 100vw;
+    min-width: 100vw;
+    margin: 0;
+    padding: 0;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    overflow: hidden;
+    z-index: 1;
+}
