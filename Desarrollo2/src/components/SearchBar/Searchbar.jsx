@@ -9,8 +9,8 @@ const Searchbar = ({ onSearch }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", margin: "20px" }}>
-      <input
+    <form className="Searchbar" onSubmit={handleSubmit} style={{ display: "flex", margin: "20px"}}>
+      <input className="Searchbar-input"
         type="text"
         placeholder="Buscar películas..."
         value={query}
@@ -20,9 +20,10 @@ const Searchbar = ({ onSearch }) => {
           flex: 1,
           border: "1px solid #ccc",
           borderRadius: "4px 0 0 4px",
+          
         }}
       />
-      <button
+      <button className="Searchbar-button"
         type="submit"
         style={{
           padding: "10px",
@@ -30,6 +31,7 @@ const Searchbar = ({ onSearch }) => {
           color: "#fff",
           border: "none",
           borderRadius: "0 4px 4px 0",
+         
         }}
       >
         Buscar
