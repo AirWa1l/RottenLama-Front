@@ -2,11 +2,15 @@
 import React from "react";
 import "../../screens/carrouselScreen/carrouselScreen.css";
 
+// Shows the visual information of each movie in the carousels
+// movie: the movie object
+// onMovieSelect: function callback to handle the movie selection
+
 const CarrouselItem = ({ movie, onMovieSelect }) => {
   return (
     <div 
-      className="carousel-item"
-      data-testid="movie-item"
+      className="movie-item"
+      
       onClick={() => onMovieSelect(movie.backgroundImage, movie.id)}
     >
       <img src={movie.thumbnailImage} alt={movie.alt} />
