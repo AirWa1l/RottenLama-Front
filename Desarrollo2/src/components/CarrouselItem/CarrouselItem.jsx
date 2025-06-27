@@ -9,7 +9,7 @@ import "../../screens/carrouselScreen/carrouselScreen.css";
 const CarrouselItem = ({ movie, onMovieSelect }) => {
   return (
     <div 
-      className="movie-item"
+      className="carousel-item"
       
       onClick={() => onMovieSelect(movie.backgroundImage, movie.id)}
     >
