@@ -68,32 +68,32 @@
     transition: 0.5s;
 }
 
-.carrousel-screen .movie-title {
+.carrousel-screen .movie-title-image {
     max-width: 300px; /* Un poco más grande */
     margin-bottom: 20px;
 }
 
 
-.carrousel-screen .banner .content h4 {
+.carrousel-screen .movie-title {
     color: rgba(255, 255, 255, 0.9); /* Más opaco */
     font-weight: 400;
     font-size: 24px; /* Tamaño más apropiado */
     margin-bottom: 15px;
 }
-.carrousel-screen .banner .content h4 span {
+.carrousel-screen .movie-title span {
     padding: 0 10px;
     border-right:1px solid rgba(255, 255, 255, 0.5);
 }
 
-.carrousel-screen .banner .content h4 span:first-child {
+.carrousel-screen .movie-title span:first-child {
     padding-left: 0 ;
 }
 
-.carrousel-screen .banner .content h4 span:last-child {
+.carrousel-screen .movie-title span:last-child {
     border-right: none;
 }
 
-.carrousel-screen .banner .content h4 span i {
+.carrousel-screen .movie-title span i {
     background: var(--primary);
     color: #ffffff;
     padding: 0 8px;
@@ -101,8 +101,8 @@
     border-radius: 2px;
 }
 
-.carrousel-screen .banner .content p {
-    font-size: 1.1em;
+.carrousel-screen .movie-description {
+    font-size: 1.3em;
     font-weight: 300;
     line-height: 1.6em;
     color: #ffffff;
