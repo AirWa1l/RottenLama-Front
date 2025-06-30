@@ -10,7 +10,7 @@ const CarrouselItem = ({ movie, onMovieSelect }) => {
   return (
     <div 
       className="carousel-item"
-      
+      data-testid={`carousel-item-${movie.id}`} 
       onClick={() => onMovieSelect(movie.backgroundImage, movie.id)}
     >
       <img src={movie.thumbnailImage} alt={movie.alt} />

@@ -11,10 +11,10 @@ const MovieCarousel = ({ movies, onMovieSelect }) => {
   }, []);
 
   return (
-    <div className="carousel-box">
-      <div className="carousel">
+    <div className="carousel-box" role="carousel-box">
+      <div className="carousel" role="carousel">
         {movies.map((movie) => (
-          <CarrouselItem 
+          <CarrouselItem role="carousel-item"
             key={movie.id}
             movie={movie} 
             onMovieSelect={onMovieSelect}

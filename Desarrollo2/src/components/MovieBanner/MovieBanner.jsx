@@ -13,7 +13,7 @@ const MovieBanner = ({
   return (
     <div 
       className="banner"
-      data-testid="banner"
+      role="banner"
       style={{
         background: `url("${backgroundImage}")`,
         backgroundSize: "cover",
