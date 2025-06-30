@@ -14,7 +14,6 @@ const Principal = () => {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const { user } = useAuth();
 
-  // Lista mock de películas
   const peliculas = [
     { id: 1, titulo: "Inception" },
     { id: 2, titulo: "The Matrix" },
@@ -23,12 +22,12 @@ const Principal = () => {
     { id: 5, titulo: "Fight Club" }
   ];
 
-  // Filtrado por búsqueda
+  const titulos = peliculas.map(p => p.titulo);
+
   const peliculasFiltradas = peliculas.filter((peli) =>
     peli.titulo.toLowerCase().includes(busqueda.toLowerCase())
   );
 
-  // Carrusel infinito
   const images = [
     "/images/img1.jpg",
     "/images/img2.jpg",
@@ -38,7 +37,6 @@ const Principal = () => {
 
   return (
     <div className="app-container">
-      {/* Navbar */}
       <div className="navbar">
         <div className="brand">
           <img src={logo} alt="Logo" className="logo" />
@@ -48,8 +46,7 @@ const Principal = () => {
         </div>
 
         <div className="header">
-          {/* Reemplazamos el input directo por el componente */}
-          <Searchbar onSearch={setBusqueda} />
+          <Searchbar onSearch={setBusqueda} suggestions={titulos} />
 
           <div className="menu-container">
             <button
@@ -81,22 +78,18 @@ const Principal = () => {
         </div>
       </div>
 
-      {/* Carrusel de Películas (nuevo) */}
       <div className="movie-carousel-section">
         <CarrouselScreen />
       </div>
-      
-      {/* Carrusel Infinito (banner superior) */}
+
       <div className="carrusel-banner">
         <CarruselInfinito images={images} />
       </div>
 
-      {/* Carrusel Estático con Flechas */}
       <div className="static-carousel-container">
         <Carrusel />
       </div>
 
-      {/* Resultados de la búsqueda */}
       <div className="resultados-busqueda">
         {busqueda && (
           <>
@@ -118,3 +111,4 @@ const Principal = () => {
 };
 
 export default Principal;
+
