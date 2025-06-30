@@ -31,11 +31,11 @@ const CarrouselScreen = () => {
   }, []);
 
   return (
-    <div className="carrousel-screen" data-testid="carrousel-screen">
+    <div className="carrousel-screen" role="carrousel-screen">
       <div className="carrousel-container">
         <header></header>
         
-        <MovieBanner
+        <MovieBanner role="movie-banner"
           backgroundImage={backgroundImage}
           movies={moviesData}
           activeMovieId={activeMovieId}
@@ -43,7 +43,7 @@ const CarrouselScreen = () => {
           onAddToList={handleAddToList}
         />
         
-        <MovieCarousel
+        <MovieCarousel role="movie-carousel"
           movies={moviesData}
           onMovieSelect={handleMovieSelect}
         />
