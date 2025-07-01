@@ -7,13 +7,15 @@ import { Link } from "react-router-dom";
 import LogoutButton from "../../components/LogoutButton/logoutButton.jsx";
 import Searchbar from "../../components/SearchBar/Searchbar.jsx";
 import CarrouselScreen from "../carrouselScreen/carrouselScreen.jsx";
+import ResultsScreen from "../resultsScreen/resultsScreen.jsx";
+import { moviesData } from "../carrouselScreen/movieData";
 import "./principal.css";
 
 const Principal = () => {
   const [busqueda, setBusqueda] = useState("");
   const [menuAbierto, setMenuAbierto] = useState(false);
   const { user } = useAuth();
-
+/*
   const peliculas = [
     { id: 1, titulo: "Inception" },
     { id: 2, titulo: "The Matrix" },
@@ -27,6 +29,14 @@ const Principal = () => {
   const peliculasFiltradas = peliculas.filter((peli) =>
     peli.titulo.toLowerCase().includes(busqueda.toLowerCase())
   );
+  */
+ // Usar los datos completos de moviesData para la búsqueda
+  const peliculasFiltradas = moviesData.filter((peli) =>
+    peli.title.toLowerCase().includes(busqueda.toLowerCase()) ||
+    peli.genre.toLowerCase().includes(busqueda.toLowerCase()) ||
+    peli.year.includes(busqueda)
+  );
+  const titulos = moviesData.map(p => p.title);
 
   const images = [
     "/images/img1.jpg",
@@ -89,6 +99,7 @@ const Principal = () => {
       <div className="static-carousel-container">
         <Carrusel />
       </div>
+      {/*
 
       <div className="resultados-busqueda">
         {busqueda && (
@@ -106,6 +117,29 @@ const Principal = () => {
           </>
         )}
       </div>
+      <div className="results-banner">
+        <ResultsScreen />
+      </div>
+      */}
+      {/* mostrar resultados de busqueda solo cuando hay una busqueda activa */}
+      {busqueda && (
+        <div className="search-results">
+          {peliculasFiltradas.length > 0 ? (
+            <div className="results-banner">
+              <ResultsScreen searchResults={peliculasFiltradas} searchTerm={busqueda} />
+            </div>
+          ) : (
+            <p>No results found.</p>
+          )}
+        </div>
+      )}
+      {/* mostrar todas las peliculas cuando no hay una busqueda activa */}
+      {!busqueda && (
+        <div className="results-banner">
+          <ResultsScreen />
+        </div>
+      )}
+  
     </div>
   );
 };
