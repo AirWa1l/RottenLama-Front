@@ -6,7 +6,6 @@ import useAuth from "../../API/auth";
 import { Link } from "react-router-dom";
 import LogoutButton from "../../components/LogoutButton/logoutButton.jsx";
 import Searchbar from "../../components/SearchBar/Searchbar.jsx";
-import CarrouselScreen from "../carrouselScreen/carrouselScreen.jsx";
 import "./principal.css";
 
 const Principal = () => {
@@ -81,11 +80,6 @@ const Principal = () => {
         </div>
       </div>
 
-      {/* Carrusel de Películas (nuevo) */}
-      <div className="movie-carousel-section">
-        <CarrouselScreen />
-      </div>
-      
       {/* Carrusel Infinito (banner superior) */}
       <div className="carrusel-banner">
         <CarruselInfinito images={images} />

@@ -17,10 +17,9 @@ body {
 /* Navbar (se mantiene igual) */
 .navbar {
     position: fixed;
-    margin-top: 0px;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -58,18 +57,6 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-}
-
-.Searchbar {
-    grid-template-columns: 75% 25%;
-    align-items: center;
-    flex-direction: row; 
-    
-}
-
-.Searchbar-input{
-    max-height: 25px;
-    
 }
 
 /* Barra de búsqueda (se mantiene igual) */
@@ -152,14 +139,14 @@ body {
 
 /* Carrusel Infinito (banner superior) */
 .carrusel-banner {
-    width: 100vw;
+    width: 100%;
     margin: 20px 0;
 }
 
 /* Contenedor del carrusel estático */
 .static-carousel-container {
-    width: 100vw;
-    max-width: 1000px;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -261,34 +248,4 @@ body {
 
 .view-all button:hover {
     background: rgba(255, 255, 255, 0.1);
-}
-
-.movie-carousel-section {
-    position: relative;
-    padding-top: 60px;
-    width: 100vw;
-    left: 50%;
-    right: 0;
-    transform: translateX(-50%);
-    margin-top: 890px;
-    padding: 0;
-    z-index: 1;
-}
-
-.carrousel-screen .banner {
-    position: relative;
-    top: 0;
-    left: 0;
-    min-height: 100vh;
-    height: 100vh;
-    padding-top: 60px;
-    width: 100vw;
-    min-width: 100vw;
-    margin: 0;
-    padding: 0;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    overflow: hidden;
-    z-index: 1;
 }
