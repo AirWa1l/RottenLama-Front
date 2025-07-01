@@ -1,3 +1,4 @@
+import React from "react";
 import MovieResult from "../../components/movieResult/movieResult";
 import { moviesData } from "../carrouselScreen/movieData";
 import "./resultsScreen.css";

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styles from "./Searchbar.module.css";
 
-const Searchbar = ({ onSearch, suggestions = [] }) => {
-  const [query, setQuery] = useState("");
+const Searchbar = ({ onSearch, suggestions = [], value = "" }) => {
+  const [query, setQuery] = useState(value);
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
 
   const handleChange = (e) => {

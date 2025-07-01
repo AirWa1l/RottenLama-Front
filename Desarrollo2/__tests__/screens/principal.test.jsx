@@ -33,6 +33,44 @@ jest.mock('../../src/API/auth', () => ({
   default: () => mockAuth,
 }));
 
+// Mock para los datos de películas
+jest.mock('../../src/screens/carrouselScreen/movieData.js', () => ({
+  moviesData: [
+    {
+      id: "the-little-mermaid",
+      title: "The Little Mermaid",
+      year: "2023",
+      genre: "Romance",
+      thumbnailImage: "/movie/movie-website-landing-page-images/movies/the-little-mermaid.jpeg",
+      alt: "The Little Mermaid"
+    },
+    {
+      id: "65",
+      title: "65",
+      year: "2023",
+      genre: "Thriller",
+      thumbnailImage: "/movie/movie-website-landing-page-images/movies/65.jpg",
+      alt: "65"
+    },
+    {
+      id: "the-covenant",
+      title: "The Covenant",
+      year: "2023",
+      genre: "Action",
+      thumbnailImage: "/movie/movie-website-landing-page-images/movies/the-covenant.jpg",
+      alt: "The Covenant"
+    },
+    {
+      id: "the-black-demon",
+      title: "The Black Demon",
+      year: "2023",
+      genre: "Horror",
+      thumbnailImage: "/movie/movie-website-landing-page-images/movies/the-black-demon.jpg",
+      alt: "The Black Demon"
+    }
+  ]
+}));
+
 // Mock para componentes
 jest.mock('../../src/components/Carrusel/carruselInfinito.jsx', () => {
   const PropTypes = require('prop-types');
@@ -55,6 +93,36 @@ jest.mock('../../src/components/Carrusel/carrusel.jsx', () => {
   };
 });
 
+jest.mock('../../src/screens/carrouselScreen/carrouselScreen.jsx', () => {
+  return function CarrouselScreen() {
+    return <div data-testid="carrousel-screen" />;
+  };
+});
+
+jest.mock('../../src/screens/resultsScreen/resultsScreen.jsx', () => {
+  const PropTypes = require('prop-types');
+  function ResultsScreen({ searchResults, searchTerm }) {
+    if (searchResults && searchTerm) {
+      return (
+        <div data-testid="results-screen-with-search">
+          <h2>Resultados de "{searchTerm}"</h2>
+          {searchResults.map(movie => (
+            <div key={movie.id} data-testid={`movie-${movie.id}`}>
+              {movie.title}
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return <div data-testid="results-screen-all" />;
+  }
+  ResultsScreen.propTypes = {
+    searchResults: PropTypes.array,
+    searchTerm: PropTypes.string,
+  };
+  return ResultsScreen;
+});
+
 jest.mock('../../src/components/LogoutButton/logoutButton.jsx', () => {
   return function LogoutButton() {
     return <button data-testid="logout-button">Logout</button>;
@@ -63,17 +131,19 @@ jest.mock('../../src/components/LogoutButton/logoutButton.jsx', () => {
 
 jest.mock('../../src/components/SearchBar/Searchbar.jsx', () => {
   const PropTypes = require('prop-types');
-  function Searchbar({ onSearch }) {
+  function Searchbar({ onSearch, suggestions }) {
     return (
       <input
         data-testid="searchbar"
         placeholder="Search movies..."
         onChange={(e) => onSearch(e.target.value)}
+        data-suggestions={suggestions?.length || 0}
       />
     );
   }
   Searchbar.propTypes = {
     onSearch: PropTypes.func,
+    suggestions: PropTypes.array,
   };
   return Searchbar;
 });
@@ -99,9 +169,11 @@ describe('Principal Screen', () => {
       // Menu button
       expect(screen.getByText('☰')).toBeInTheDocument();
 
-      // Carruseles
+      // Componentes principales
+      expect(screen.getByTestId('carrousel-screen')).toBeInTheDocument();
       expect(screen.getByTestId('carrusel-infinito')).toBeInTheDocument();
       expect(screen.getByTestId('carrusel-estatico')).toBeInTheDocument();
+      expect(screen.getByTestId('results-screen-all')).toBeInTheDocument();
     });
 
     test('renderiza logo con src correcto', () => {
@@ -116,7 +188,14 @@ describe('Principal Screen', () => {
       render(<Principal />);
       
       const imagesCount = screen.getByTestId('images-count');
-      expect(imagesCount).toHaveTextContent('4'); // 4 imágenes en el array
+      expect(imagesCount).toHaveTextContent('4'); // 4 imágenes estáticas
+    });
+
+    test('pasa sugerencias correctas al Searchbar', () => {
+      render(<Principal />);
+      
+      const searchbar = screen.getByTestId('searchbar');
+      expect(searchbar).toHaveAttribute('data-suggestions', '4'); // 4 películas
     });
   });
 
@@ -173,34 +252,52 @@ describe('Principal Screen', () => {
   });
 
   describe('Funcionalidad de búsqueda', () => {
-    test('no muestra resultados inicialmente', () => {
+    test('muestra ResultsScreen sin búsqueda inicialmente', () => {
       render(<Principal />);
 
-      expect(screen.queryByText(/Resultados de/)).not.toBeInTheDocument();
+      expect(screen.getByTestId('results-screen-all')).toBeInTheDocument();
+      expect(screen.queryByTestId('results-screen-with-search')).not.toBeInTheDocument();
     });
 
-    test('muestra resultados cuando se realiza una búsqueda', async () => {
+    test('muestra resultados cuando se realiza una búsqueda por título', async () => {
       render(<Principal />);
 
       const searchInput = screen.getByTestId('searchbar');
-      fireEvent.change(searchInput, { target: { value: 'Inception' } });
+      fireEvent.change(searchInput, { target: { value: 'Little' } });
 
       await waitFor(() => {
-        expect(screen.getByText('Resultados de "Inception"')).toBeInTheDocument();
-        expect(screen.getByText('Inception')).toBeInTheDocument();
+        expect(screen.getByTestId('results-screen-with-search')).toBeInTheDocument();
+        expect(screen.getByText('Resultados de "Little"')).toBeInTheDocument();
+        expect(screen.getByTestId('movie-the-little-mermaid')).toBeInTheDocument();
+        expect(screen.getByText('The Little Mermaid')).toBeInTheDocument();
       });
     });
 
-    test('filtra correctamente las películas', async () => {
+    test('filtra correctamente por género', async () => {
       render(<Principal />);
 
       const searchInput = screen.getByTestId('searchbar');
-      fireEvent.change(searchInput, { target: { value: 'Matrix' } });
+      fireEvent.change(searchInput, { target: { value: 'Horror' } });
 
       await waitFor(() => {
-        expect(screen.getByText('Resultados de "Matrix"')).toBeInTheDocument();
-        expect(screen.getByText('The Matrix')).toBeInTheDocument();
-        expect(screen.queryByText('Inception')).not.toBeInTheDocument();
+        expect(screen.getByText('Resultados de "Horror"')).toBeInTheDocument();
+        expect(screen.getByTestId('movie-the-black-demon')).toBeInTheDocument();
+        expect(screen.getByText('The Black Demon')).toBeInTheDocument();
+      });
+    });
+
+    test('filtra correctamente por año', async () => {
+      render(<Principal />);
+
+      const searchInput = screen.getByTestId('searchbar');
+      fireEvent.change(searchInput, { target: { value: '2023' } });
+
+      await waitFor(() => {
+        expect(screen.getByText('Resultados de "2023"')).toBeInTheDocument();
+        expect(screen.getByTestId('movie-the-little-mermaid')).toBeInTheDocument();
+        expect(screen.getByTestId('movie-65')).toBeInTheDocument();
+        expect(screen.getByTestId('movie-the-covenant')).toBeInTheDocument();
+        expect(screen.getByTestId('movie-the-black-demon')).toBeInTheDocument();
       });
     });
 
@@ -208,11 +305,11 @@ describe('Principal Screen', () => {
       render(<Principal />);
 
       const searchInput = screen.getByTestId('searchbar');
-      fireEvent.change(searchInput, { target: { value: 'PULP' } });
+      fireEvent.change(searchInput, { target: { value: 'MERMAID' } });
 
       await waitFor(() => {
-        expect(screen.getByText('Resultados de "PULP"')).toBeInTheDocument();
-        expect(screen.getByText('Pulp Fiction')).toBeInTheDocument();
+        expect(screen.getByText('Resultados de "MERMAID"')).toBeInTheDocument();
+        expect(screen.getByText('The Little Mermaid')).toBeInTheDocument();
       });
     });
 
@@ -223,40 +320,53 @@ describe('Principal Screen', () => {
       fireEvent.change(searchInput, { target: { value: 'NonExistentMovie' } });
 
       await waitFor(() => {
-        expect(screen.getByText('Resultados de "NonExistentMovie"')).toBeInTheDocument();
-        expect(screen.getByText('No se encontraron resultados.')).toBeInTheDocument();
+        expect(screen.getByText('No results found.')).toBeInTheDocument();
       });
     });
 
-    test('muestra múltiples resultados cuando coinciden', async () => {
-      render(<Principal />);
-
-      const searchInput = screen.getByTestId('searchbar');
-      fireEvent.change(searchInput, { target: { value: 'i' } }); // Buscar letra 'i'
-
-      await waitFor(() => {
-        expect(screen.getByText('Inception')).toBeInTheDocument();
-        expect(screen.getByText('Pulp Fiction')).toBeInTheDocument();
-        expect(screen.getByText('Interstellar')).toBeInTheDocument();
-        expect(screen.getByText('Fight Club')).toBeInTheDocument();
-      });
-    });
-
-    test('limpia los resultados cuando se borra la búsqueda', async () => {
+    test('vuelve a mostrar todas las películas cuando se limpia la búsqueda', async () => {
       render(<Principal />);
 
       const searchInput = screen.getByTestId('searchbar');
       
       // Realizar búsqueda
-      fireEvent.change(searchInput, { target: { value: 'Matrix' } });
+      fireEvent.change(searchInput, { target: { value: 'Horror' } });
       await waitFor(() => {
-        expect(screen.getByText('The Matrix')).toBeInTheDocument();
+        expect(screen.getByTestId('results-screen-with-search')).toBeInTheDocument();
       });
 
       // Limpiar búsqueda
       fireEvent.change(searchInput, { target: { value: '' } });
       await waitFor(() => {
-        expect(screen.queryByText(/Resultados de/)).not.toBeInTheDocument();
+        expect(screen.getByTestId('results-screen-all')).toBeInTheDocument();
+        expect(screen.queryByTestId('results-screen-with-search')).not.toBeInTheDocument();
+      });
+    });
+
+    test('searchbar responde a cambios continuos', async () => {
+      render(<Principal />);
+
+      const searchInput = screen.getByTestId('searchbar');
+      
+      // Simular escritura gradual
+      fireEvent.change(searchInput, { target: { value: 'T' } });
+      await waitFor(() => {
+        expect(screen.getByText('The Little Mermaid')).toBeInTheDocument();
+        expect(screen.getByText('The Covenant')).toBeInTheDocument();
+        expect(screen.getByText('The Black Demon')).toBeInTheDocument();
+      });
+
+      fireEvent.change(searchInput, { target: { value: 'The' } });
+      await waitFor(() => {
+        expect(screen.getByText('The Little Mermaid')).toBeInTheDocument();
+        expect(screen.getByText('The Covenant')).toBeInTheDocument();
+        expect(screen.getByText('The Black Demon')).toBeInTheDocument();
+      });
+
+      fireEvent.change(searchInput, { target: { value: 'The C' } });
+      await waitFor(() => {
+        expect(screen.getByText('The Covenant')).toBeInTheDocument();
+        expect(screen.queryByText('The Little Mermaid')).not.toBeInTheDocument();
       });
     });
   });
@@ -268,6 +378,7 @@ describe('Principal Screen', () => {
       expect(screen.getByTestId('searchbar').closest('.header')).toBeInTheDocument();
       expect(screen.getByTestId('carrusel-infinito').closest('.carrusel-banner')).toBeInTheDocument();
       expect(screen.getByTestId('carrusel-estatico').closest('.static-carousel-container')).toBeInTheDocument();
+      expect(screen.getByTestId('carrousel-screen').closest('.movie-carousel-section')).toBeInTheDocument();
     });
 
     test('aplica clases CSS correctas', () => {
@@ -300,27 +411,22 @@ describe('Principal Screen', () => {
       }
     });
 
-    test('searchbar responde a cambios continuos', async () => {
+    test('maneja búsquedas complejas correctamente', async () => {
       render(<Principal />);
 
       const searchInput = screen.getByTestId('searchbar');
       
-      // Simular escritura gradual
-      fireEvent.change(searchInput, { target: { value: 'I' } });
+      // Buscar por múltiples criterios
+      fireEvent.change(searchInput, { target: { value: 'Action' } });
       await waitFor(() => {
-        expect(screen.getByText('Inception')).toBeInTheDocument();
+        expect(screen.getByText('The Covenant')).toBeInTheDocument();
       });
 
-      fireEvent.change(searchInput, { target: { value: 'In' } });
+      // Cambiar a búsqueda por título
+      fireEvent.change(searchInput, { target: { value: '65' } });
       await waitFor(() => {
-        expect(screen.getByText('Inception')).toBeInTheDocument();
-        expect(screen.getByText('Interstellar')).toBeInTheDocument();
-      });
-
-      fireEvent.change(searchInput, { target: { value: 'Inc' } });
-      await waitFor(() => {
-        expect(screen.getByText('Inception')).toBeInTheDocument();
-        expect(screen.queryByText('Interstellar')).not.toBeInTheDocument();
+        expect(screen.getByText('65')).toBeInTheDocument();
+        expect(screen.queryByText('The Covenant')).not.toBeInTheDocument();
       });
     });
   });

@@ -1,3 +1,4 @@
+import React from "react";
 import "./movieResult.css";
 
 const MovieResult = ({movie}) => {

@@ -1,15 +1,17 @@
 import { createContext, useContext } from "react";
-import useAuth from "./auth.js"; // Importamos la lógica de autenticación
+import useAuth from "./auth.js";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const auth = useAuth(); // Obtenemos todas las funciones de autenticación
-
+  const auth = useAuth();
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };
 
-// Hook personalizado para usar el contexto de autenticación
 export const useAuthContext = () => {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuthContext debe usarse dentro de un AuthProvider");
+  }
+  return context;
 };

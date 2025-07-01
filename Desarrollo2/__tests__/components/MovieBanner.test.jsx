@@ -1,6 +1,7 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import MovieBanner from '../../src/components/MovieBanner/MovieBanner';
-import React from 'react';
+
 
 describe("MovieBanner", () => {
 
