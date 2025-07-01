@@ -1,6 +1,6 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import MovieContent from '../../src/components/MovieContent/MovieContent';
-import React from 'react';
 import userEvent from '@testing-library/user-event';
 
 describe("MovieContent", () => {

@@ -1,6 +1,7 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import MovieCarousel from '../../src/components/MovieCarrousel/MovieCarrousel';
-import React from 'react';
+
 
 describe('MovieCarousel', () => {
 

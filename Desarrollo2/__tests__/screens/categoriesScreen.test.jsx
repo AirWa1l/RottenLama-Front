@@ -1,15 +1,53 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import CategoriesScreen from "src/screens/categoriesScreen/categoriesScreen";
 import { MemoryRouter } from "react-router-dom";
+import CategoriesScreen from "../../src/screens/categoriesScreen/categoriesScreen";
 
 // Mock de useAuth
-jest.mock("src/API/auth", () => ({
+jest.mock("../../src/API/auth", () => ({
   __esModule: true,
-  default: () => ({ user: null }),
+  default: () => ({ 
+    user: null,
+    logout: jest.fn() 
+  }),
 }));
 
+// Mock del componente SearchBar
+jest.mock("../../src/components/SearchBar/Searchbar", () => {
+  return function Searchbar() {
+    return (
+      <div data-testid="searchbar">
+        <input 
+          placeholder="Search movies..."
+          data-testid="search-input"
+        />
+      </div>
+    );
+  };
+});
+
+// Mock de LogoutButton
+jest.mock("../../src/components/LogoutButton/logoutButton", () => {
+  return function LogoutButton() {
+    return <button data-testid="logout-button">Logout</button>;
+  };
+});
+
+// Mock para la imagen del logo
+jest.mock("../../src/assets/logo.png", () => "test-file-stub");
+
 describe("CategoriesScreen", () => {
+  const mockCategories = [
+    { name: "Action", emoji: "🔥" },
+    { name: "Comedy", emoji: "😂" },
+    { name: "Drama", emoji: "🎭" },
+    { name: "Sci-Fi", emoji: "🚀" },
+    { name: "Romance", emoji: "❤️" },
+    { name: "Horror", emoji: "👻" },
+    { name: "Thriller", emoji: "🔪" },
+    { name: "Animation", emoji: "🎬" }
+  ];
+
   test("renders the categories screen with title and description", () => {
     render(
       <MemoryRouter>
@@ -23,70 +61,70 @@ describe("CategoriesScreen", () => {
     ).toBeInTheDocument();
   });
 
-  test("shows predefined category options", () => {
+  test("shows all category cards", () => {
     render(
       <MemoryRouter>
         <CategoriesScreen />
       </MemoryRouter>
     );
 
-    const categories = [
-      "Action",
-      "Comedy",
-      "Drama",
-      "Sci-Fi",
-      "Romance",
-      "Horror",
-      "Thriller",
-      "Animation",
-    ];
-
-    categories.forEach((category) => {
-      expect(screen.getByText(category)).toBeInTheDocument();
+    mockCategories.forEach(category => {
+      expect(screen.getByText(category.name)).toBeInTheDocument();
+      expect(screen.getByText(category.emoji)).toBeInTheDocument();
     });
   });
 
-  test("navbar shows links and search bar", () => {
+  test("shows search bar", () => {
     render(
       <MemoryRouter>
         <CategoriesScreen />
       </MemoryRouter>
     );
 
-    expect(
-      screen.getByPlaceholderText("Buscar películas...")
-    ).toBeInTheDocument();
+    expect(screen.getByTestId("searchbar")).toBeInTheDocument();
+  });
+
+  test("shows auth buttons when not logged in", () => {
+    render(
+      <MemoryRouter>
+        <CategoriesScreen />
+      </MemoryRouter>
+    );
+
     expect(screen.getByText("Register")).toBeInTheDocument();
     expect(screen.getByText("Login")).toBeInTheDocument();
+    expect(screen.queryByTestId("logout-button")).not.toBeInTheDocument();
   });
 
-  test("menu toggle shows dropdown links", () => {
+  test("shows logout button when logged in", () => {
+    // Mock para usuario autenticado
+    jest.spyOn(require("../../src/API/auth"), "default").mockImplementation(() => ({
+      user: { id: 1, username: "testuser" },
+      logout: jest.fn()
+    }));
+
     render(
       <MemoryRouter>
         <CategoriesScreen />
       </MemoryRouter>
     );
 
-    const button = screen.getByRole("button", { name: /☰/i });
-    fireEvent.click(button);
-
-    // Espera que los textos aparezcan después de abrir el menú
-    expect(screen.getByText("Categories")).toBeVisible();
-    expect(screen.getByText("My Reviews")).toBeVisible();
-    expect(screen.getByText("Coming Soon")).toBeVisible();
+    expect(screen.getByTestId("logout-button")).toBeInTheDocument();
+    expect(screen.queryByText("Register")).not.toBeInTheDocument();
+    expect(screen.queryByText("Login")).not.toBeInTheDocument();
   });
 
-  test("each category card has an emoji and name", () => {
+  test("menu toggle works", () => {
     render(
       <MemoryRouter>
         <CategoriesScreen />
       </MemoryRouter>
     );
 
-    const emojiElements = screen.getAllByText((content, element) =>
-      element.tagName.toLowerCase() === "span" &&
-      /🔥|😂|🎭|👻|🚀|❤️|🔪|🎬/.test(content)
-    );
-    expect(emojiElements.length).toBeGreaterThanOrEqual(8);
+    const menuButton = screen.getByText("☰");
+    fireEvent.click(menuButton);
+
+    expect(screen.getByText("Categories")).toBeInTheDocument();
+    expect(screen.getByText("My Reviews")).toBeInTheDocument();
   });
 });

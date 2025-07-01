@@ -1,6 +1,6 @@
+import React from 'react';
 import { getAllByAltText, render, screen } from '@testing-library/react';
 import CarrouselScreen from '../../src/screens/carrouselScreen/carrouselScreen';
-import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { fireEvent } from '@testing-library/react';
 

@@ -1,7 +1,8 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import CarrouselItem from '../../src/components/CarrouselItem/CarrouselItem';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+
 
 describe('CarrouselItem', () => {
 

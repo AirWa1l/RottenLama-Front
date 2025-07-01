@@ -31,10 +31,10 @@ const Principal = () => {
   );
   */
  // Usar los datos completos de moviesData para la búsqueda
-  const peliculasFiltradas = moviesData.filter((peli) =>
-    peli.title.toLowerCase().includes(busqueda.toLowerCase()) ||
-    peli.genre.toLowerCase().includes(busqueda.toLowerCase()) ||
-    peli.year.includes(busqueda)
+  const peliculasFiltradas = (moviesData || []).filter((peli) =>
+  peli.title.toLowerCase().includes(busqueda.toLowerCase()) ||
+  peli.genre.toLowerCase().includes(busqueda.toLowerCase()) ||
+  peli.year.includes(busqueda)  
   );
   const titulos = moviesData.map(p => p.title);
 
@@ -145,4 +145,3 @@ const Principal = () => {
 };
 
 export default Principal;
-
