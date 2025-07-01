@@ -1,42 +1,53 @@
 import React, { useState } from "react";
+import styles from "./Searchbar.module.css";
 
-const Searchbar = ({ onSearch }) => {
+const Searchbar = ({ onSearch, suggestions = [] }) => {
   const [query, setQuery] = useState("");
+  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSearch(query);
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    onSearch(value);
+
+    const filtered = suggestions.filter((s) =>
+      s.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredSuggestions(filtered);
+  };
+
+  const handleSelectSuggestion = (value) => {
+    setQuery(value);
+    onSearch(value);
+    setFilteredSuggestions([]);
   };
 
   return (
-    <form className="Searchbar" onSubmit={handleSubmit} style={{ display: "flex", margin: "20px"}}>
-      <input className="Searchbar-input"
-        type="text"
-        placeholder="Buscar películas..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        style={{
-          padding: "10px",
-          flex: 1,
-          border: "1px solid #ccc",
-          borderRadius: "4px 0 0 4px",
-          
-        }}
-      />
-      <button className="Searchbar-button"
-        type="submit"
-        style={{
-          padding: "10px",
-          backgroundColor: "#333",
-          color: "#fff",
-          border: "none",
-          borderRadius: "0 4px 4px 0",
-         
-        }}
-      >
-        Buscar
-      </button>
-    </form>
+    <div className={styles.wrapper}>
+      <form className={styles.searchBar} onSubmit={(e) => e.preventDefault()}>
+        <input
+          type="text"
+          className={styles.searchInput}
+          placeholder="Search movies..."
+          value={query}
+          onChange={handleChange}
+        />
+      </form>
+      {filteredSuggestions.length > 0 && (
+        <ul className={styles.suggestionsList} data-testid="suggestion-list">
+          {filteredSuggestions.map((s, index) => (
+            <li
+              key={index}
+              className={styles.suggestionItem}
+              data-testid={`suggestion-${index}`}
+              onClick={() => handleSelectSuggestion(s)}
+            >
+              {s}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 

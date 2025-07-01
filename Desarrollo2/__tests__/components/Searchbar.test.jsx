@@ -1,37 +1,65 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import Searchbar from "../../src/components/SearchBar/Searchbar.jsx";
+import '@testing-library/jest-dom';
+import Searchbar from "../../src/components/SearchBar/Searchbar";
 
+describe("Searchbar component", () => {
+  const mockSearch = jest.fn();
+  const mockSuggestions = [
+    "Inception",
+    "Interstellar",
+    "The Matrix",
+    "Pulp Fiction",
+    "Fight Club"
+  ];
 
-describe("Searchbar", () => {
-  test("renderiza el input y el botón de búsqueda", () => {
-    render(<Searchbar onSearch={() => {}} />);
-
-
-    // Verifica que se renderiza el input
-    const input = screen.getByPlaceholderText(/buscar películas/i);
-    expect(input).toBeInTheDocument();
-
-
-    // Verifica que se renderiza el botón
-    const button = screen.getByRole("button", { name: /buscar/i });
-    expect(button).toBeInTheDocument();
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
+  test("renderiza correctamente el input", () => {
+    render(<Searchbar onSearch={mockSearch} suggestions={mockSuggestions} />);
+    expect(screen.getByPlaceholderText("Search movies...")).toBeInTheDocument();
+  });
 
-  test("llama a onSearch con el texto ingresado al hacer submit", () => {
-    const mockOnSearch = jest.fn();
-    render(<Searchbar onSearch={mockOnSearch} />);
+  test("muestra sugerencias filtradas al escribir", () => {
+    render(<Searchbar onSearch={mockSearch} suggestions={mockSuggestions} />);
+    const input = screen.getByPlaceholderText("Search movies...");
+    fireEvent.change(input, { target: { value: "in" } });
 
+    expect(mockSearch).toHaveBeenCalledWith("in");
+    expect(screen.getByTestId("suggestion-list")).toBeInTheDocument();
+    expect(screen.getByText("Inception")).toBeInTheDocument();
+    expect(screen.getByText("Interstellar")).toBeInTheDocument();
+  });
 
-    const input = screen.getByPlaceholderText(/buscar películas/i);
-    const button = screen.getByRole("button", { name: /buscar/i });
+  test("no muestra sugerencias si no hay coincidencias", () => {
+    render(<Searchbar onSearch={mockSearch} suggestions={mockSuggestions} />);
+    const input = screen.getByPlaceholderText("Search movies...");
+    fireEvent.change(input, { target: { value: "zzzzz" } });
 
+    expect(mockSearch).toHaveBeenCalledWith("zzzzz");
+    expect(screen.queryByTestId("suggestion-list")).not.toBeInTheDocument();
+  });
 
-    fireEvent.change(input, { target: { value: "Inception" } });
-    fireEvent.click(button);
+  test("seleccionar sugerencia actualiza el input y oculta la lista", () => {
+    render(<Searchbar onSearch={mockSearch} suggestions={mockSuggestions} />);
+    const input = screen.getByPlaceholderText("Search movies...");
+    fireEvent.change(input, { target: { value: "f" } });
 
+    const suggestion = screen.getByText("Fight Club");
+    fireEvent.click(suggestion);
 
-    expect(mockOnSearch).toHaveBeenCalledWith("Inception");
+    expect(input.value).toBe("Fight Club");
+    expect(mockSearch).toHaveBeenCalledWith("Fight Club");
+    expect(screen.queryByTestId("suggestion-list")).not.toBeInTheDocument();
+  });
+
+  test("el filtrado es case-insensitive", () => {
+    render(<Searchbar onSearch={mockSearch} suggestions={mockSuggestions} />);
+    const input = screen.getByPlaceholderText("Search movies...");
+    fireEvent.change(input, { target: { value: "PULP" } });
+
+    expect(screen.getByText("Pulp Fiction")).toBeInTheDocument();
   });
 });
