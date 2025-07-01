@@ -67,7 +67,7 @@ const useAuth = () => {
   }, []);
   const register = async (userInfo) => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/register/", {
+      const response = await fetch("http://18.230.67.228:31479/api/users/register/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userInfo),
@@ -93,7 +93,7 @@ const useAuth = () => {
 
   const login = async (userInfo) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/users/login/`, {
+      const response = await fetch(`http://18.230.67.228:31479/api/users/login/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         mode: "cors",
@@ -215,7 +215,7 @@ const checkTokenExpiration = async () => {
       if (!refreshToken) {
         return logout();
       }
-      const response = await fetch("http://127.0.0.1:8000/api/users/refresh/", {
+      const response = await fetch("http://18.230.67.228:31479/api/users/refresh/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ refresh: refreshToken }),
