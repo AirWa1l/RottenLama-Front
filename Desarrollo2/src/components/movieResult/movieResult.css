@@ -62,3 +62,25 @@
     color: #ffd700; /* Color dorado */
     font-size: 18px;
 }
+
+.movie-result-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.movie-result:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
+
+.movie-result {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  transition: background 0.2s ease;
+}

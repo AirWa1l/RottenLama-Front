@@ -5,7 +5,7 @@ import useAuth from "../../API/auth";
 import Searchbar from "../../components/SearchBar/Searchbar";
 import LogoutButton from "../../components/LogoutButton/logoutButton";
 import "../../screens/carrouselScreen/carrouselScreen.css";
-import "./categoriesScreen.css"; // te paso el CSS abajo
+import "./categoriesScreen.css";
 
 const CategoriesScreen = () => {
   const [menuAbierto, setMenuAbierto] = useState(false);
@@ -27,14 +27,19 @@ const CategoriesScreen = () => {
       {/* Navbar */}
       <div className="navbar">
         <div className="brand">
-          <img src={logo} alt="Logo" className="logo" />
-          <span className="brand-text">
-            Spitting <span className="brand-subtext">Llama</span>
-          </span>
+          <Link to="/" className="logo-link">
+            <img src={logo} alt="Logo" className="logo" />
+          </Link>
+          <Link to="/" className="brand-text-link">
+            <span className="brand-text">
+              Spitting <span className="brand-subtext">Llama</span>
+            </span>
+          </Link>
         </div>
 
         <div className="header">
           <Searchbar />
+
           <div className="menu-container">
             <button
               className="menu-button"

@@ -6,6 +6,7 @@ import Login from "./screens/loginScreen/login";
 import Register from "./screens/registerScreen/register";
 import Recovery from "./screens/recoveryScreen/recovery";
 import Principal from "./screens/mainScreen/principal";
+import MovieDetail from "./screens/movieDetail/movieDetail";
 import CarrouselScreen from "./screens/carrouselScreen/carrouselScreen";
 import CategoriesScreen from "./screens/categoriesScreen/categoriesScreen";
 import MyReviewsScreen from "./screens/myReviewsScreen/myReviewsScreen";
@@ -24,7 +25,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/categories" element={<CategoriesScreen />} />
         <Route path="/my-reviews" element={<MyReviewsScreen />} />
         <Route path="/premieres" element={<PremieresScreen />} />
-        
+        <Route path="/movie/:id" element={<MovieDetail />} /> 
       </Routes>
     </AuthProvider>
   </BrowserRouter>
