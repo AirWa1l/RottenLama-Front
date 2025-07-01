@@ -48,3 +48,16 @@
   font-size: 18px;
   font-weight: bold;
 }
+
+.logo-link {
+  text-decoration: none;
+}
+
+.brand-text-link {
+  text-decoration: none;
+  color: white;
+}
+
+.brand-text-link:hover .brand-subtext {
+  color: #f39c12;
+}

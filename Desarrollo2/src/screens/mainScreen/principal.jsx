@@ -15,26 +15,11 @@ const Principal = () => {
   const [busqueda, setBusqueda] = useState("");
   const [menuAbierto, setMenuAbierto] = useState(false);
   const { user } = useAuth();
-/*
-  const peliculas = [
-    { id: 1, titulo: "Inception" },
-    { id: 2, titulo: "The Matrix" },
-    { id: 3, titulo: "Pulp Fiction" },
-    { id: 4, titulo: "Interstellar" },
-    { id: 5, titulo: "Fight Club" }
-  ];
 
-  const titulos = peliculas.map(p => p.titulo);
-
-  const peliculasFiltradas = peliculas.filter((peli) =>
-    peli.titulo.toLowerCase().includes(busqueda.toLowerCase())
-  );
-  */
- // Usar los datos completos de moviesData para la búsqueda
   const peliculasFiltradas = (moviesData || []).filter((peli) =>
-  peli.title.toLowerCase().includes(busqueda.toLowerCase()) ||
-  peli.genre.toLowerCase().includes(busqueda.toLowerCase()) ||
-  peli.year.includes(busqueda)  
+    peli.title.toLowerCase().includes(busqueda.toLowerCase()) ||
+    peli.genre.toLowerCase().includes(busqueda.toLowerCase()) ||
+    peli.year.includes(busqueda)
   );
   const titulos = moviesData.map(p => p.title);
 
@@ -49,7 +34,9 @@ const Principal = () => {
     <div className="app-container">
       <div className="navbar">
         <div className="brand">
-          <img src={logo} alt="Logo" className="logo" />
+          <Link to="/" className="logo-link">
+            <img src={logo} alt="Logo" className="logo" />
+          </Link>
           <span className="brand-text">
             Spitting <span className="brand-subtext">Llama</span>
           </span>
@@ -99,47 +86,29 @@ const Principal = () => {
       <div className="static-carousel-container">
         <Carrusel />
       </div>
-      {/*
 
-      <div className="resultados-busqueda">
-        {busqueda && (
-          <>
-            <h2>Resultados de "{busqueda}"</h2>
-            {peliculasFiltradas.length > 0 ? (
-              <ul>
-                {peliculasFiltradas.map((peli) => (
-                  <li key={peli.id}>{peli.titulo}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>No se encontraron resultados.</p>
-            )}
-          </>
-        )}
-      </div>
-      <div className="results-banner">
-        <ResultsScreen />
-      </div>
-      */}
-      {/* mostrar resultados de busqueda solo cuando hay una busqueda activa */}
+      {/* Resultados búsqueda */}
       {busqueda && (
         <div className="search-results">
           {peliculasFiltradas.length > 0 ? (
             <div className="results-banner">
-              <ResultsScreen searchResults={peliculasFiltradas} searchTerm={busqueda} />
+              <ResultsScreen
+                searchResults={peliculasFiltradas}
+                searchTerm={busqueda}
+              />
             </div>
           ) : (
             <p>No results found.</p>
           )}
         </div>
       )}
-      {/* mostrar todas las peliculas cuando no hay una busqueda activa */}
+
+      {/* Mostrar todas si no hay búsqueda */}
       {!busqueda && (
         <div className="results-banner">
           <ResultsScreen />
         </div>
       )}
-  
     </div>
   );
 };
