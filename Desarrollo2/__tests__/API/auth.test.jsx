@@ -61,7 +61,7 @@ describe('useAuth Hook', () => {
       });
 
       expect(fetch).toHaveBeenCalledWith(
-        'http://18.230.78.124:30192/api/users/register/',
+        'http://18.230.67.228:31479/api/users/register/',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -165,7 +165,7 @@ describe('useAuth Hook', () => {
       });
 
       expect(fetch).toHaveBeenCalledWith(
-        'http://18.230.78.124:30192/api/users/login/',
+        'http://18.230.67.228:31479/api/users/login/',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -271,7 +271,7 @@ describe('useAuth Hook', () => {
       });
 
       expect(fetch).toHaveBeenCalledWith(
-        'http://18.230.78.124:30192/api/users/refresh/',
+        'http://18.230.67.228:31479/api/users/refresh/',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
